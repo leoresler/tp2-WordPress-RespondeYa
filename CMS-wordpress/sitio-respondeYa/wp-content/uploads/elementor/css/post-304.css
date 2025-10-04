@@ -1,0 +1,47 @@
+.elementor-304 .elementor-element.elementor-element-ab0ea71{--display:flex;--gap:20px 20px;--row-gap:20px;--column-gap:20px;}.elementor-widget-heading .elementor-heading-title{font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );color:var( --e-global-color-primary );}.elementor-304 .elementor-element.elementor-element-11ce2e0{text-align:center;}.elementor-304 .elementor-element.elementor-element-11ce2e0 .elementor-heading-title{font-family:"Roboto", Sans-serif;font-weight:700;color:#FF9A6D;}.elementor-304 .elementor-element.elementor-element-b899c07{text-align:center;}.elementor-304 .elementor-element.elementor-element-b899c07 .elementor-heading-title{color:#F7F8F8;}.elementor-304 .elementor-element.elementor-element-76b835c{--display:flex;--flex-direction:row;--container-widget-width:calc( ( 1 - var( --container-widget-flex-grow ) ) * 100% );--container-widget-height:100%;--container-widget-flex-grow:1;--container-widget-align-self:stretch;--flex-wrap-mobile:wrap;--justify-content:center;--align-items:center;--gap:30px 30px;--row-gap:30px;--column-gap:30px;}body.elementor-page-304:not(.elementor-motion-effects-element-type-background), body.elementor-page-304 > .elementor-motion-effects-container > .elementor-motion-effects-layer{background-color:#02010152;background-image:url("http://localhost/sitio-respondeYa/wp-content/uploads/2025/10/RespondeYa.gif");background-position:center center;background-repeat:no-repeat;background-size:cover;}:root{--page-title-display:none;}/* Start custom CSS for heading, class: .elementor-element-11ce2e0 */.elementor-heading-title {
+  background: linear-gradient(to bottom, #FFD700, #FF69B4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; 
+  color: transparent; /* por compatibilidad */
+}/* End custom CSS */
+/* Start custom CSS for container, class: .elementor-element-76b835c */.e-con-inner button {
+  background: linear-gradient(135deg, #5a1a80, #1a2a50); /* violeta más claro → azul oscuro */
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+}
+
+/* Hover un poco más intenso */
+.e-con-inner button:hover {
+  background: linear-gradient(135deg, #7621aa, #22336a); 
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+}
+
+
+.e-con-inner {
+  margin-top: 30px !important;
+}/* End custom CSS */
+/* Start custom CSS *//* El contenedor del fondo (ajusta según tu clase real, parece ser .elementor-section o #content) */
+#content {
+  position: relative;
+  z-index: 0;
+}
+
+/* Capa overlay */
+#content::before {
+  content: "";
+  position: absolute;
+  top: 0; 
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 10, 30, 0.5); /* azul/negro semitransparente */
+  z-index: -1; /* se queda debajo del contenido */
+}/* End custom CSS */
