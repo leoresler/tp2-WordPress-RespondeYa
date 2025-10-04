@@ -1,0 +1,77 @@
+.eduna-dashboard-notice {
+    font-size: 17px;
+    padding: 22px;
+    line-height: 1.6;
+}
+
+.eduna-notice-title {
+	font-size: 15px;
+	font-weight: 500 !important;
+	margin: 0 !important;
+}
+.eduna-notice-title  *{
+    font-weight: inherit;
+    font-size: inherit;
+}
+.eduna-notice-upgrade {
+	font-size: 18px;
+	font-weight: bold;
+	margin-top: 10px;
+	margin: 0 !important;
+}
+.eduna-notice-text {
+	font-size: 16px;
+	margin-top: 5px;
+	margin: 0 !important;
+}
+
+.eduna-notice-offer {
+    font-size: 16px;
+    font-weight: bold;
+    color: #ef644c;
+    margin-top: 10px;
+}
+
+.eduna-notice-buttons a {
+    font-size: 16px;
+    padding: 6px 20px;
+    margin-right: 5px;
+}
+
+.eduna-admin-wrap {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+}
+.nav-tab-wrapper {
+    margin-bottom: 20px;
+}
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
+}
+
+.button.eduna-btn-pro {
+	background: #543EE8 !important;
+}
+.button.eduna-btn-pro:hover{
+    opacity: 0.8;
+}
+.eduna-admin-wrap p {
+	font-size: 15px;
+}
+
+.eduna-admin-wrap #setting-error-tgmpa,.eduna-admin-wrap .e-notice,.eduna-admin-wrap .kirki-admin-notice {
+    display: none;
+}
+
+table td {
+	font-size: 14px !important;
+}
+.button.btn-demo {
+	background: #476d87 !important;
+	color: #fff !important;
+	border: none;
+}

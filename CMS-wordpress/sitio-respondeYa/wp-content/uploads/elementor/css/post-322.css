@@ -1,0 +1,37 @@
+.elementor-322 .elementor-element.elementor-element-8e319e2{--display:flex;}:root{--page-title-display:none;}/* Start custom CSS for html, class: .elementor-element-3891b4c */.respondeya-container {
+    background-color: #4428B3;
+  max-width: 1024px; /* equivalente a max-w-4xl */
+  margin: 0 auto;     /* centrado horizontal */
+  padding: 3rem 1.5rem; /* py-12 px-6 */
+  color: #D3D3D3;
+  font-family: Arial, sans-serif;
+  border-radius: 20px;
+}
+
+.respondeya-section {
+  margin-bottom: 3rem; /* mb-12 */
+}
+
+.respondeya-title {
+  font-size: 2.25rem; /* text-4xl */
+  font-weight: bold;
+  margin-bottom: 1rem; /* mb-4 */
+  text-align: center;
+  color: white;
+}
+
+.respondeya-subtitle {
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: 600;  /* font-semibold */
+  margin-bottom: 0.75rem; /* mb-3 */
+  background: linear-gradient(to bottom, #FFD700, #FF69B4);
+}
+
+.respondeya-text {
+  font-size: 1.125rem; /* text-lg */
+  text-align: justify;
+}
+
+.respondeya-bold {
+  font-weight: 600; /* font-semibold */
+}/* End custom CSS */
