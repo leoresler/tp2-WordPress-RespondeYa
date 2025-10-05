@@ -55,9 +55,6 @@ function App() {
               element={<JugarIndividual />}
             />
             <Route path='/tienda' element={<Tienda />} />
-            <Route path='/perfil' element={<Perfil />} />
-            <Route path='/chatGlobal' element={<ChatGlobal />} />
-            <Route path='/admin' element={<AbmAdministrador />} />
           </Route>
         </Route>
         {/* Catch-all: mandá a "/" (el guard decide) */}
