@@ -47,17 +47,20 @@ const store = async (req, res) => {
 
 const update = async (req, res) => {
   const { id } = req.params;
-  const { name, email, password } = req.body;
-  if (!name || !email) {
-    return res.status(400).json({ error: "Name y email son requeridos" });
-  }
+  const { name, email, password, puntaje } = req.body;
   try {
     const user = await User.findByPk(id);
+    
     if (!user) {
       return res.status(404).send("User not found");
     }
 
+    // Acumular puntos
+        await user.increment({ puntaje });
+        await user.reload();
+
     const payload = { name, email };
+    
     if (typeof password === "string" && password.trim()) {
       payload.password = password.trim();
     }
