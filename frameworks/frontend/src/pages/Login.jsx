@@ -56,7 +56,7 @@ const Login = () => {
   };
 
   return (
-    <div className='w-90 h-130 bg-amber-600 rounded-3xl p-6 mt-4 mb-4 text-center'>
+    <div className='w-90 h-auto bg-amber-600 rounded-3xl p-6 mt-4 mb-8 text-center'>
       <h2 className='text-5xl font-bold mb-4 text-center '>Bienvenidos</h2>
       <form onSubmit={handleSubmit}>
         <div className=' bg-amber-200  rounded-4xl flex flex-col text-center items-center justify-center text-black'>
@@ -86,10 +86,10 @@ const Login = () => {
               className='w-70 h-15 rounded-4xl  text-center bg-amber-100 hover:bg-amber-200 placeholder-gray-500 text-black'
             />
           </div>
-          <div className='w-50 h-15 bg-green-600 hover:bg-green-700 rounded-4xl  text-amber-200 flex items-center justify-center mb-1 mt-4 p-1'>
+          <div className='w-50 h-15 bg-green-600 hover:bg-green-700 rounded-4xl  text-white flex items-center justify-center mb-1 mt-4 p-1'>
             <button className='cursor-pointer'>Iniciar Sesion</button>
           </div>
-          <div className='w-50 h-15 bg-blue-500 hover:bg-blue-600  rounded-4xl  text-amber-200 flex items-center justify-center  m-1 p-1'>
+          <div className='w-50 h-15 bg-blue-500 hover:bg-blue-600  rounded-4xl  text-gray-500 flex items-center justify-center  m-1 p-1'>
             <Link to='/register' className='m-1 text-amber-200'>
               Registrarse
             </Link>

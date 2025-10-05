@@ -57,19 +57,15 @@ export default function HeaderPrivate() {
 
 
     return (
-        <header className="bg-orange-300 px-6 py-3 font-semibold shadow sticky top-0 w-full">
+        <header className="bg-black/94 text-white px-6 py-3 font-semibold shadow sticky top-0 w-full">
             <nav className="flex items-center justify-between">
-                <Link to="/" className="h-16 flex items-center">                    
+                <Link to="/" className="h-16 flex items-center">
                     <img src="/logo.png" alt="Logo" className="h-72 flex items-center" />
                 </Link>
-                <ul className="flex items-center gap-6 text-lg">                    
+                <ul className="flex items-center gap-6 text-lg">
                     <li><Link to="/" className="hover:underline">Inicio</Link></li>
-                    <li><Link to="/tienda" className="hover:underline">Tienda</Link></li>
-                    <li><Link to="/comojugar" className="hover:underline">Cómo Jugar</Link></li>
-                    <li><Link to="/ChatGlobal" className="hover:underline">Chat Global</Link></li>
-                    <li>
-                        <button className="cursor-pointer">EN|ES</button>
-                    </li>                    
+                    <li><Link to="/comojugar" className="hover:underline">Aprender a jugar</Link></li>
+                    <li><Link to="/contacto" className="hover:underline">Contacto</Link></li>
 
                     {/* Menu desplegable de usuario */}
                     <li className="relative">
@@ -93,13 +89,6 @@ export default function HeaderPrivate() {
                                 aria-label="Menú de usuario"
                                 className="absolute right-0 mt-2 w-52 rounded-xl bg-white text-gray-800 shadow-lg ring-1 ring-black/5 overflow-hidden z-50"
                             >
-                                <Link
-                                    to="/perfil"
-                                    role="menuitem"
-                                    className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-                                >
-                                    Ver perfil
-                                </Link>
                                 <button
                                     onClick={handleLogout}
                                     role="menuitem"
