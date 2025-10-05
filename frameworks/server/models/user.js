@@ -27,6 +27,11 @@ const User = sequelize.define('User',{
     type:DataTypes.STRING(255),
     allowNull: false
   },
+  puntaje: {
+    type: DataTypes.INTEGER.UNSIGNED,
+    allowNull: false,
+    defaultValue: 0,
+  },
 }, {
   tableName: "users",
   timestamps: true,  
