@@ -57,7 +57,7 @@ export default function HeaderPrivate() {
 
 
     return (
-        <header className="bg-black/94 text-white px-6 py-3 font-semibold shadow sticky top-0 w-full">
+        <header className="bg-black/94 text-white px-6 py-3 font-semibold shadow sticky top-0 w-full z-10">
             <nav className="flex items-center justify-between">
                 <Link to="/" className="h-16 flex items-center">
                     <img src="/logo.png" alt="Logo" className="h-72 flex items-center" />
@@ -66,7 +66,7 @@ export default function HeaderPrivate() {
                     <li><Link to="/" className="hover:underline">Inicio</Link></li>
                     <li><Link to="/comojugar" className="hover:underline">Aprender a jugar</Link></li>
                     <li><Link to="/contacto" className="hover:underline">Contacto</Link></li>
-
+                    <li><Link to="/ruleta" className="hover:underline">Ruleta</Link></li>
                     {/* Menu desplegable de usuario */}
                     <li className="relative">
                         <button

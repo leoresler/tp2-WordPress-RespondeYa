@@ -13,6 +13,7 @@ import ProtectedRoute from './routes/ProtectedRoute';
 import PublicLayout from './layouts/PublicLayout';
 import PublicRoute from './routes/PublicRoute';
 import Register from './pages/Register';
+import Ruleta from './pages/Ruleta';
 import Tienda from './pages/Tienda';
 
 function LayoutSwitch() {
@@ -55,6 +56,7 @@ function App() {
               element={<JugarIndividual />}
             />
             <Route path='/tienda' element={<Tienda />} />
+            <Route path='/Ruleta' element={<Ruleta />} />
           </Route>
         </Route>
         {/* Catch-all: mandá a "/" (el guard decide) */}
