@@ -1,4 +1,5 @@
 import {User} from '../models/associations.js';
+import bcrypt from 'bcrypt';
 
 const index = async (req, res) => {
   try {
@@ -32,9 +33,18 @@ const store = async (req, res) => {
     return res.status(400).json({ error: "Name, email, and password are required" });
   }
   try {
-    const user = await User.create({ name, email, password });
+    // Hash de la contraseña
+    const hashedPassword = await bcrypt.hash(password, 10);
     
-    res.status(201).json(user);
+    const user = await User.create({ 
+      name, 
+      email, 
+      password: hashedPassword,
+      role: 'jugador' 
+    });
+    
+    const { password: _, ...userWithoutPassword } = user.toJSON();
+    res.status(201).json(userWithoutPassword);
   } catch (error) {
     if (error.name === 'SequelizeUniqueConstraintError') {
       return res.status(400).json({ error: "Email already exists" });

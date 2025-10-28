@@ -7,6 +7,8 @@ import express from 'express';
 import sequelize from './models/sequelize.js';
 import userRoutes from "./routes/userRoutes.js";
 
+import passport from './config/passport-config.js';
+
 const app = express();
 
 // Middlewares base
@@ -17,6 +19,12 @@ app.use(
     credentials: true,
   })
 );
+
+// Inicializar Passport
+app.use(passport.initialize());
+
+// Ruta user
+app.use('/api', userRoutes);
 
 // Rutas de la API
 app.use("/auth", authRoutes);

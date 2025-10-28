@@ -15,6 +15,7 @@ import PublicRoute from './routes/PublicRoute';
 import Register from './pages/Register';
 import Ruleta from './pages/Ruleta';
 import Tienda from './pages/Tienda';
+import GoogleCallback from './pages/GoogleCallback.jsx';
 
 function LayoutSwitch() {
   const user = (() => {
@@ -43,6 +44,7 @@ function App() {
           <Route element={<PublicLayout />}>
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
+            <Route path='/auth/google/success' element={<GoogleCallback />} />
           </Route>
         </Route>
         {/* Privado (con sesion) */}
