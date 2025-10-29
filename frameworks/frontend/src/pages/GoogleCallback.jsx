@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+
+import { useEffect } from 'react';
 
 const GoogleCallback = () => {
   const navigate = useNavigate();
@@ -10,9 +11,16 @@ const GoogleCallback = () => {
     const userStr = searchParams.get('user');
     const error = searchParams.get('error');
 
+    console.log('🔍 GoogleCallback - Params recibidos:', {
+      token: token ? 'SÍ' : 'NO',
+      user: userStr ? 'SÍ' : 'NO',
+      error: error || 'NINGUNO'
+    });
+
     if (error) {
       // Manejar error
-      console.error('Error en autenticación:', error);
+      console.error('❌ Error en autenticación:', error);
+      //alert(Error de autenticación: ${ error });
       navigate('/login', { replace: true });
       return;
     }
@@ -20,7 +28,7 @@ const GoogleCallback = () => {
     if (token && userStr) {
       try {
         const user = JSON.parse(decodeURIComponent(userStr));
-        
+
         // Guardar en localStorage
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
