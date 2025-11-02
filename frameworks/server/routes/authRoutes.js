@@ -1,5 +1,7 @@
 import "dotenv/config";
 
+import Administrador from '../models/Administrador.js';
+import Jugador from '../models/Jugador.js';
 import User from '../models/user.js'
 import { authMiddleware } from "../routes/authMiddleware.js";
 import bcrypt from 'bcrypt';
@@ -13,71 +15,94 @@ const router = express.Router();
 router.post('/register', async (req, res) => {
     try {
         const { usuario, email, password } = req.body;
-        
+
         // Validaciones mínimas
         if (!usuario) return res.status(400).json({ error: "El usuario es obligatorio" });
         if (!email) return res.status(400).json({ error: "El email es obligatorio" });
         if (!password) return res.status(400).json({ error: "La contraseña es obligatoria" });
-        
+
         const exists = await User.findOne({ where: { email } });
         if (exists) return res.status(409).json({ error: "Email ya registrado" });
 
-        // Hash de la contraseña
-        const hashedPassword = await bcrypt.hash(password, 10);
-
+        // crea el obj User
         const newUser = await User.create({
+            role,
             name: usuario,
-            role: 'jugador',
+            pais,
             email,
-            password: hashedPassword,
-            puntaje: 0
+            password,
         });
-        
+
+        // verifica si el user es un Jugador
+        if (newUser) {
+            // crea el registro para 1:1 en jugadores
+            await Jugador.create({ user_id: newUser.id });
+        }
+
         const { password: _, ...userWithoutPassword } = newUser.toJSON();
         res.status(201).json(userWithoutPassword);
     } catch (error) {
-        console.error('Error en registro:', error);
+        //console.error('Error en registro:', error);
         res.status(400).json({ error: error.message });
     }
 });
 
 // Login tradicional
-router.post("/login", async (req, res) => {
+router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
-        
-        if (!email) return res.status(400).json({ error: "El email es obligatorio" });
-        if (!password) return res.status(400).json({ error: "La contraseña es obligatoria" });
+        if (!email) return res.status(400).json({ error: 'El email es obligatorio' });
+        if (!password) return res.status(400).json({ error: 'La contraseña es obligatoria' });
         if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            return res.status(400).json({ error: "Email inválido" });
+            return res.status(400).json({ error: 'Email inválido' });
         }
 
         const user = await User.findOne({ where: { email } });
         if (!user) {
-            return res.status(404).json({ error: "Usuario inexistente" });
+            return res.status(404).json({ error: 'Usuario inexistente' });
         }
 
         const ok = await bcrypt.compare(password, user.password);
-        if (!ok) return res.status(401).json({ error: "Password no coincide" });
+        if (!ok) return res.status(401).json({ error: 'Password no coincide' });
 
-        const JWT_SECRET = process.env.JWT_SECRET || process.env.JWT_KEY;
-        if (!JWT_SECRET) return res.status(500).json({ error: "JWT_KEY no configurada en el servidor" });
+        const JWT_SECRET = process.env.JWT_KEY || process.env.JWT_SECRET;
+        if (!JWT_SECRET)
+            return res.status(500).json({ error: 'JWT_KEY no configurada en el servidor' });
 
-        const token = jwt.sign(
-            { id: user.id, email: user.email, role: user.role }, 
-            JWT_SECRET, 
-            { expiresIn: "7d" }
-        );
-        
-        const { id, name, email: mail, role, puntaje } = user;
+        const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '3h' });
+        const { id, name, email: mail, foto_perfil } = user;
 
-        return res.status(200).json({
-            token,
-            user: { id, name, email: mail, role, puntaje },
-        });
+        const user_id = user.id;
+        // validacion de role jugador
+        if (user.role == 'jugador') {
+            const jugador = await Jugador.findOne({ where: { user_id } });
+            const { jugador_id } = jugador.dataValues;
+            if (!jugador) {
+                return res.status(404).json({ error: 'Jugador inexistente' });
+            } else {
+                return res.status(200).json({
+                    token,
+                    user: { id, name, email: mail, role: user.role, jugador_id: jugador_id, foto_perfil, puntaje: jugador.puntaje },
+                });
+            }
+        } else {
+            // validacion de role administrador
+            if (user.role == 'administrador') {
+                const administrador = await Administrador.findOne({ where: { user_id } });
+                const { admin_id } = administrador.dataValues;
+                if (!administrador) {
+                    return res.status(404).json({ error: 'administrador inexistente' });
+                } else {
+                    return res.status(200).json({
+                        token,
+                        user: { id, name, email: mail, role: user.role, admin_id: admin_id },
+                    });
+                }
+            }
+        }
     } catch (err) {
-        console.error("LOGIN ERR:", err);
-        return res.status(500).json({ error: "Error interno" });
+        console.error('LOGIN ERR:', err);
+        return res.status(500).json({ error: 'Error interno' });
     }
 });
 
@@ -104,7 +129,8 @@ router.get(
         session: false,
         failureRedirect: `${process.env.FRONTEND_URL}/login?error=auth_failed`,
     }),
-    (req, res) => {
+    // handler async
+    async (req, res) => {
         try {
             console.log('✅ Usuario autenticado con Google:', req.user);
 
@@ -119,12 +145,46 @@ router.get(
                 return res.redirect(`${process.env.FRONTEND_URL}/login?error=jwt_error`);
             }
 
+            const user = req.user.dataValues;
+            const user_id = user.id;
+
+            //console.log("role linea 151: " , user);
+            //console.log("user_id: " , user_id);
+
+            let extraData = null;
+
+            if (user.role === 'jugador') {
+                let jugador = await Jugador.findOne({ where: { user_id } });
+                if (!jugador) {
+                    // si querés garantizar 1:1 siempre:
+                    jugador = await Jugador.create({ user_id });
+                }
+                // Evitamos romper si la tabla cambió de nombres
+                const { jugador_id, puntaje, ruleta_started_a } = jugador.get?.() ?? jugador.dataValues ?? {};
+                extraData = {
+                    jugador_id,
+                    ruleta_started_a: ruleta_started_a ?? null,
+                    puntaje: puntaje ?? 0,
+                };
+            } else if (user.role === 'administrador') {
+                let administrador = await Administrador.findOne({ where: { user_id } });
+                if (!administrador) {
+                    administrador = await Administrador.create({ user_id });
+                }
+                const { admin_id } = administrador.get?.() ?? administrador.dataValues ?? {};
+                extraData = { admin_id };
+            }
+
             // Generar JWT token
             const token = jwt.sign(
-                { 
-                    id: req.user.id, 
-                    email: req.user.email,
-                    role: req.user.role 
+                {
+                    id: user.id,
+                    email: user.email,
+                    role: user.role,
+                    pais: user.pais ??  null,
+                    foto_perfil: user.foto_perfil ??  null,
+                    name: user.name,
+                    ...extraData,
                 },
                 JWT_SECRET,
                 { expiresIn: '7d' }
@@ -132,13 +192,17 @@ router.get(
 
             // Crear objeto de usuario sin password
             const userObj = {
-                id: req.user.id,
-                name: req.user.name,
-                email: req.user.email,
-                role: req.user.role,
-                puntaje: req.user.puntaje,
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                pais: user.pais ?? null,
+                foto_perfil: user.foto_perfil ?? null,
+                name: user.name,
+                ...extraData,
             };
 
+            // , userObj
             console.log('✅ Redirigiendo al frontend con token');
 
             // Redirigir al frontend con el token

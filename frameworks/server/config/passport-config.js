@@ -1,7 +1,10 @@
 // config/passport-config.js
-import passport from 'passport';
+
+import Administrador from '../models/Administrador.js';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import Jugador from '../models/Jugador.js';
 import User from '../models/user.js';
+import passport from 'passport';
 
 passport.use(
   new GoogleStrategy(
@@ -21,6 +24,7 @@ passport.use(
         }
 
         const email = profile.emails[0].value;
+        console.log('email: ', email);
 
         // Buscar si el usuario ya existe por email
         let user = await User.findOne({
@@ -41,8 +45,15 @@ passport.use(
           email: email,
           password: 'google-oauth-' + profile.id, // Password dummy para OAuth
           role: 'jugador',
-          puntaje: 0,
+          //puntaje: 0,
+          pais: "Argentina",
+          foto_perfil: null,
         });
+
+        if (user) {
+           // crea el registro para 1:1 en jugadores
+            await Jugador.create({ user_id: user.id });
+        }
 
         console.log('Usuario creado:', user.toJSON());
         return done(null, user);

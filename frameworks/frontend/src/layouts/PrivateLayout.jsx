@@ -1,17 +1,25 @@
-import { Footer } from "../components/Footer";
-import HeaderPrivate from "../components/HeaderPrivate";
-import { Outlet } from "react-router-dom";
+import FondoAnimado from './FondoAnimado';
+import { Footer } from '../components/Footer';
+import HeaderPrivate from '../components/HeaderPrivate';
+import { Outlet } from 'react-router-dom';
+import { RespondeYaLogo } from './RespondeYaLogo';
+import { useLocation } from 'react-router-dom';
 
 export default function PrivateLayout() {
-    return (
-        <>
-            <HeaderPrivate />
-            <main className="w-full min-h-screen flex flex-col items-center justify-start
-                            bg-gradient-to-b from-[#160040] via-[#1c0060] to-[#0a0235] text-white">
-                <img src="/fondo.png" alt="responde ya" className="mb-4 mt-6 w-3/4 max-w-xl rounded-2xl" />
-                <Outlet />
-            </main>
-            <Footer />
-        </>
-    );
+  const location = useLocation();
+  const mostrarLogo = location.pathname === '/comoJugar' ? false : true;
+
+  return (
+    <>
+      <HeaderPrivate />
+      <main className='relative w-full min-h-screen flex flex-col items-center justify-start '>
+        {mostrarLogo && <FondoAnimado />}
+        <div className='z-10 w-full flex flex-col items-center'>
+          {mostrarLogo && <RespondeYaLogo />}
+          <Outlet />
+        </div>
+      </main>
+      <Footer />
+    </>
+  );
 }
