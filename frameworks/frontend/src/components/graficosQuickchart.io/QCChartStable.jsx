@@ -27,21 +27,7 @@ export default function QCChartStable({
             outUno.push(raw.trim());
         }
         return outUno;
-    })();
-
-    const arrayCategorias = (() => {
-        const seen = new Set();
-        const out = [];
-        for (const e of (arregloCompleto.listaObjetosPartidaInformacion ?? [])) {
-            const raw = e?.categoria;
-            if (typeof raw !== 'string') continue;
-            const norm = raw.trim().toLowerCase();
-            if (!norm || seen.has(norm)) continue;
-            seen.add(norm);
-            out.push(raw.trim());
-        }
-        return out;
-    })();
+    })();    
 
     const counts = (arregloCompleto.listaObjetosPartidaInformacion ?? []).reduce((acc, e) => {
         const k = (e?.categoria ?? '').trim().toLowerCase();
@@ -122,7 +108,6 @@ export default function QCChartStable({
                     },
                 },
             },
-            backgroundColor: 'transparent',
         },
     };
     

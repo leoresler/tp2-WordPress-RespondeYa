@@ -1,10 +1,10 @@
 // src/utils/quickchart.js
 export function buildQuickChartURL({ 
     config, 
-    width = 700, 
-    height = 400, 
-    format = 'png', 
-    backgroundColor = 'transparent' 
+    width, 
+    height, 
+    format, 
+    backgroundColor,
 }) {
     const base = 'https://quickchart.io/chart';
     const params = new URLSearchParams({
