@@ -1,5 +1,3 @@
-// src/components/graficosQuickchart.io/ChartMultilineLabelsImg.jsx
-
 import { useEffect, useState } from 'react';
 
 import { buildQuickChartURL } from '../../utils/quickchart';
@@ -15,24 +13,13 @@ export default function ChartMultilineLabels({
     className = '',
 }) {
 
-    //console.log("componente grafica: ", arregloCompleto?.respuestasDeLaPartida);
-
     const tiemposMs = (arregloCompleto?.respuestasDeLaPartida ?? [])
         .map(e => Number(e.tiempo_respuesta_ms))
         .filter(Number.isFinite);
 
     const tiemposSeg = tiemposMs.map(ms => Math.round(ms / 1000));
-
-    //console.log("tiemposSeg:", tiemposSeg);
-
-    // 10 primeros - jugador 1
-    const dataA = tiemposSeg.slice(0, 10);
-
-    // 10 últimos - jugador 2
+    const dataA = tiemposSeg.slice(0, 10);    
     const dataB = tiemposSeg.slice(10);
-
-    //console.log("dataA:", dataA);
-    //console.log("dataB:", dataB);
 
     const config = {
         type: 'line',
@@ -47,7 +34,7 @@ export default function ChartMultilineLabels({
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     pointBackgroundColor: 'rgb(239, 20, 68)',
                     pointBorderColor: 'rgb(255, 99, 132)',
-                    pointRadius: 3,            //  radio del punto
+                    pointRadius: 3, 
                     pointStyle: 'circle',
                     fill: false,
                 },
@@ -66,16 +53,11 @@ export default function ChartMultilineLabels({
             ],
         },
         options: {
-            plugins: {
-                title: {
-                    display: false,
-                    // text: 'Chart.js Line Chart',
-                    // color: '#222',
-                },
+            plugins: {                
                 legend: {
                     labels: {
                         color: 'white',
-                        usePointStyle: true,   // muestra círculo en la leyenda
+                        usePointStyle: true,
                         pointStyle: 'circle',
                         boxWidth: 8, boxHeight: 8, padding: 12
                     },
@@ -118,7 +100,6 @@ export default function ChartMultilineLabels({
         },
     };
 
-    // Forzar v4 en QuickChart
     const [src, setSrc] = useState(() =>
         buildQuickChartURL({ config, width, height, format, backgroundColor }) + '&version=4'
     );

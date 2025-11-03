@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 
 import { buildQuickChartURL } from '../../utils/quickchart';
-import { scale } from 'motion/react';
 
 export default function QCChartStable({
     arregloCompleto,    
@@ -14,11 +13,7 @@ export default function QCChartStable({
     alt = 'chart',
     className = '',
 }) {
-
     // comienzo de const:
-
-    //console.log("arregloCompleto: ", arregloCompleto);
-    //console.log("arregloCompleto.categorias: ", arregloCompleto.categorias);
 
     const arrCats = (() => {
         const seenUno = new Set();
@@ -26,14 +21,13 @@ export default function QCChartStable({
         for (const i of (arregloCompleto.categorias ?? [])) {
             const raw = i?.nombre;
             if (typeof raw !== 'string') continue;
-            const norm = raw.trim().toLowerCase(); // normalizo para comparar
+            const norm = raw.trim().toLowerCase();
             if (!norm || seenUno.has(norm)) continue;
             seenUno.add(norm);
-            outUno.push(raw.trim()); // guardo como vino (con mayúsculas originales)
+            outUno.push(raw.trim());
         }
         return outUno;
     })();
-    //console.log("arrCats: ", arrCats);
 
     const arrayCategorias = (() => {
         const seen = new Set();
@@ -41,14 +35,13 @@ export default function QCChartStable({
         for (const e of (arregloCompleto.listaObjetosPartidaInformacion ?? [])) {
             const raw = e?.categoria;
             if (typeof raw !== 'string') continue;
-            const norm = raw.trim().toLowerCase(); // normalizo para comparar
+            const norm = raw.trim().toLowerCase();
             if (!norm || seen.has(norm)) continue;
             seen.add(norm);
-            out.push(raw.trim()); // guardo como vino (con mayúsculas originales)
+            out.push(raw.trim());
         }
         return out;
     })();
-    //console.log("arrayCategorias: ", arrayCategorias);
 
     const counts = (arregloCompleto.listaObjetosPartidaInformacion ?? []).reduce((acc, e) => {
         const k = (e?.categoria ?? '').trim().toLowerCase();
@@ -56,7 +49,6 @@ export default function QCChartStable({
         acc[k] = (acc[k] ?? 0) + 1;
         return acc;
     }, {});
-    //console.log("counts: ", counts); // { ciencia: 3, historia: 1, ... }
 
     const categoriasConConteo = arrCats.map(cat => {
         const norm = cat.trim().toLowerCase();
@@ -65,17 +57,14 @@ export default function QCChartStable({
             count: counts[norm] ?? 0
         };
     });
-    //console.log("categoriasConConteo: ", categoriasConConteo);
 
     const nuevoLabels = categoriasConConteo.map(e => e.categoria);
-    //const nuevoData = categoriasConConteo.map(e => e.count);
     const nuevoData = (() => {
         const base = categoriasConConteo.map(e => e.count);
         const total = base.reduce((acc, n) => acc + n, 0);
         return [...base, total];
     })();
 
-    // antes era barConfig
     const config = {
         type: 'bar',
         data: {
@@ -83,7 +72,6 @@ export default function QCChartStable({
             datasets: [{
                 label: 'Categorias',
                 data: nuevoData,
-                //backgroundColor: 'rgba(54,162,235,0.6)', //color-mix(in oklab, var(--color-fuchsia-500) 95%, transparent)
                 backgroundColor: '#e12afbf2',
                 borderColor: '#e32afb',
                 borderWidth: 1,
@@ -100,22 +88,17 @@ export default function QCChartStable({
                         weight: 'bold',
                     },
                 },
-                // title: {
-                //     display: true,
-                //     text: "Chart.js Line Chart" //hace el titulo  
-                // }
             },
             scales: {
                 x: {
-                    ticks: { color: 'white', autoSkip: false }, // preguntas (el color)
+                    ticks: { color: 'white', autoSkip: false }, 
                     grid: {
-                        display: true,                      // ON
-                        color: 'white',         // contraste de las lineas de fondo
+                        display: true,                      
+                        color: 'white',         
                         lineWidth: 1,
                         drawOnChartArea: true,
                         drawTicks: true,
-                        borderColor: 'rgba(0,0,0,0.2)',               // bordes del eje
-                        //borderWidth: 1,
+                        borderColor: 'rgba(0,0,0,0.2)',
                     },
                 },
                 y: {
@@ -142,10 +125,9 @@ export default function QCChartStable({
             backgroundColor: 'transparent',
         },
     };
-
-    // se crea la URL y se forza en version=4 para evitar ambigüedades
+    
     const baseUrl = buildQuickChartURL({ config, width, height, format, backgroundColor });
-    const withVersion = `${baseUrl}`; // importante declarar version 4 (&version=4)
+    const withVersion = `${baseUrl}`;
     const [src, setSrc] = useState(withVersion);
 
     useEffect(() => {

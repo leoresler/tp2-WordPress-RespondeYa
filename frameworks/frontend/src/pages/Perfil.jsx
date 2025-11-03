@@ -1800,25 +1800,17 @@ const Perfil = () => {
                       </button>
                     </div>
 
-                    {/* grafica lineal de respuestas */}
+                    {/* grafica de respuesta de la api quickchart.js    */}
                     <div
-                      //ref={listRef}
                       className="text-xl rounded p-1.5 mt-1 flex-1 min-h-0">
                       {objetoPartidaCompleto.partida[0].modo == "individual" ? (
-                        //<span className="p-2 text-[20px]">Grafica lineal de respuestas...</span>
-                        //grafica de respuesta de simpleBarChart 
-                        //<SimpleBarChart objPartidaIdInformacion={objetoPartidaCompleto}
-
-                        //grafica de respuesta de la api quickchart.js                        
-                        <div className="bg-gradient-to-b from-purple-800 via-purple-700 to-purple-800 rounded-xl">
-                          {/* objetoPartidaCompleto */}
-                          {/* <h3 className="mt-4">Vertical axis labels - indiviual</h3> */}
+                        <div className="bg-gradient-to-b from-purple-800 via-purple-700 to-purple-800 rounded-xl">                          
+                          {/* individual */}
                           <ChartVerticalLabels arregloCompleto={objetoPartidaCompleto} className=" mt-1 p-1" />
                         </div>
                       ) : (
                         <div>
-                          {/* varias lineas - multijugador */}
-                          {/* <h3 className="mt-4">Multiline labels - multijugador</h3>*/}
+                          {/* multijugador */}
                           <ChartMultilineLabels arregloCompleto={objetoPartidaCompleto} className=" bg-gradient-to-b from-purple-800 via-purple-700 to-purple-800 rounded-xl mt-4" />
                         </div>
                       )}
@@ -1840,8 +1832,7 @@ const Perfil = () => {
           </div>
           {estadisticas.length !== 0 ? (
             <>
-              {/* <h3 className="mt-4">QCChartStable</h3> */}
-              {/* config={null} */}
+              {/* gGeneral */}
               <QCChartStable arregloCompleto={{ listaObjetosPartidaInformacion, categorias }} className="bg-gradient-to-b from-purple-800 via-purple-700 to-purple-800  mt-4 rounded p-4 pl-1" />
             </>
           ) : (
